@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Ticket Modal Premium</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#121212;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow-x:hidden;
+}
+
+/* OVERLAY */
+
+.overlay{
+    width:100%;
+    min-height:100vh;
+    background:rgba(0,0,0,0.55);
+    padding:20px 12px;
+    display:flex;
+    justify-content:center;
+}
+
+/* MODAL */
+
+.modal{
+    width:100%;
+    max-width:430px;
+    background:#fff;
+    border-radius:34px 34px 0 0;
+    overflow:hidden;
+    position:relative;
+    animation:modalUp .4s ease;
+}
+
+@keyframes modalUp{
+    from{
+        transform:translateY(60px);
+        opacity:0;
+    }
+    to{
+        transform:translateY(0);
+        opacity:1;
+    }
+}
+
+/* HEADER */
+
+.header{
+    padding:24px 24px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.header h1{
+    font-size:26px;
+    font-weight:800;
+    color:#12182a;
+}
+
+.close{
+    font-size:34px;
+    cursor:pointer;
+    color:#12182a;
+}
+
+/* BANNER */
+
+.banner{
+    width:100%;
+    height:220px;
+    overflow:hidden;
+    padding:0 18px;
+}
+
+.banner img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:22px;
+    background:#cbe6fb;
+}
+
+/* BODY */
+
+.content{
+    padding:22px 18px 25px;
+}
+
+/* TITLE */
+
+.label{
+    font-size:15px;
+    font-weight:700;
+    color:#6f7584;
+    letter-spacing:2px;
+    margin-bottom:16px;
+    text-transform:uppercase;
+}
+
+/* CATEGORY */
+
+.tabs{
+    display:flex;
+    gap:12px;
+    margin-bottom:26px;
+}
+
+.tab{
+    height:64px;
+    min-width:155px;
+    border-radius:999px;
+    border:2px solid #ddd3ce;
+    background:#fff;
+    font-size:20px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.3s;
+    color:#6a3208;
+}
+
+.tab.active{
+    background:#6a3208;
+    color:#fff;
+    border-color:#6a3208;
+}
+
+/* INFO */
+
+.top-line{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:4px;
+}
+
+.dot{
+    color:#9da4b2;
+}
+
+.blue{
+    color:#6fb6f3;
+    font-size:14px;
+}
+
+.desc{
+    font-size:17px;
+    color:#43495b;
+    margin-bottom:22px;
+}
+
+/* PRESALE */
+
+.presale-box{
+    width:215px;
+    border:3px solid #e33a31;
+    border-radius:25px;
+    padding:26px 20px;
+    margin-bottom:26px;
+    animation:pulse 2s infinite;
+    position:relative;
+    overflow:hidden;
+}
+
+.presale-box::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:100%;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.45),
+        transparent
+    );
+    animation:shine 3s infinite;
+}
+
+@keyframes shine{
+    100%{
+        left:130%;
+    }
+}
+
+@keyframes pulse{
+    0%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.02);
+    }
+    100%{
+        transform:scale(1);
+    }
+}
+
+.presale-title{
+    font-size:25px;
+    font-weight:800;
+    color:#13192b;
+    margin-bottom:10px;
+}
+
+.stock{
+    font-size:18px;
+    font-weight:700;
+    color:#188045;
+    line-height:1.15;
+}
+
+/* BUNDLE */
+
+.bundle-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:20px;
+}
+
+.card{
+    background:#fff;
+    border:2px solid #e6e6e6;
+    border-radius:24px;
+    padding:26px 10px 16px;
+    text-align:center;
+    position:relative;
+    transition:.3s;
+    cursor:pointer;
+}
+
+.card.active{
+    border:3px solid #e7a700;
+    background:#fffdf7;
+}
+
+.discount{
+    position:absolute;
+    top:-15px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#ed332e;
+    color:#fff;
+    font-weight:700;
+    padding:7px 16px;
+    border-radius:999px;
+    font-size:15px;
+    white-space:nowrap;
+    box-shadow:0 8px 20px rgba(237,51,46,.3);
+}
+
+.card h3{
+    font-size:24px;
+    color:#13192b;
+    font-weight:800;
+}
+
+.ticket{
+    color:#707788;
+    margin-top:4px;
+    font-size:14px;
+}
+
+.price{
+    margin-top:12px;
+    font-size:24px;
+    font-weight:800;
+    color:#12182a;
+}
+
+.card.active .price{
+    color:#e2a100;
+}
+
+.person{
+    color:#707788;
+    font-size:13px;
+    margin-top:3px;
+}
+
+/* JUMLAH */
+
+.qty-row{
+    margin-top:22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.qty-title{
+    font-size:22px;
+    font-weight:700;
+    color:#161d30;
+}
+
+.qty-box{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.qty-btn{
+    width:58px;
+    height:58px;
+    border-radius:16px;
+    border:1px solid #e5e5e5;
+    background:#fff;
+    font-size:38px;
+    color:#222;
+    cursor:pointer;
+}
+
+.qty-number{
+    font-size:30px;
+    font-weight:700;
+    width:30px;
+    text-align:center;
+}
+
+/* TOTAL */
+
+.total-wrap{
+    margin-top:28px;
+    background:#fffdf4;
+    border:2px solid #efd27f;
+    border-radius:26px;
+    padding:20px;
+}
+
+.total-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:14px;
+}
+
+.total-label{
+    color:#707788;
+    font-size:15px;
+    font-weight:700;
+}
+
+.people{
+    background:#f6ead0;
+    color:#6d4a22;
+    padding:10px 16px;
+    border-radius:999px;
+    font-weight:700;
+}
+
+.final-price{
+    display:flex;
+    align-items:end;
+    gap:12px;
+}
+
+.big{
+    font-size:34px;
+    font-weight:800;
+    color:#eb2d2d;
+}
+
+.old{
+    font-size:16px;
+    color:#7e7e7e;
+    text-decoration:line-through;
+    margin-bottom:7px;
+}
+
+.save{
+    margin-top:16px;
+    background:#dff1e2;
+    color:#178345;
+    border-radius:18px;
+    padding:16px;
+    font-size:18px;
+    font-weight:700;
+}
+
+/* BUTTON */
+
+.buy{
+    width:100%;
+    height:88px;
+    border:none;
+    border-radius:28px;
+    background:#6a3208;
+    color:#fff;
+    font-size:22px;
+    font-weight:700;
+    margin-top:20px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.buy:hover{
+    transform:translateY(-2px);
+}
+
+/* LIVE PURCHASE */
+
+.live-buy{
+    position:fixed;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#fff;
+    border-radius:20px;
+    padding:14px 18px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    box-shadow:0 15px 35px rgba(0,0,0,.18);
+    z-index:999;
+    animation:slideNotif 5s infinite;
+}
+
+.avatar{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#ffe7b3;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+}
+
+.live-text{
+    font-size:14px;
+    color:#555;
+}
+
+.live-text strong{
+    color:#111;
+}
+
+@keyframes slideNotif{
+
+    0%{
+        opacity:0;
+        transform:translate(-50%,-20px);
+    }
+
+    10%{
+        opacity:1;
+        transform:translate(-50%,0);
+    }
+
+    80%{
+        opacity:1;
+        transform:translate(-50%,0);
+    }
+
+    100%{
+        opacity:0;
+        transform:translate(-50%,-20px);
+    }
+}
+
+/* MOBILE */
+
+@media(max-width:480px){
+
+    .card h3{
+        font-size:20px;
+    }
+
+    .price{
+        font-size:19px;
+    }
+
+    .tab{
+        min-width:140px;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<!-- LIVE BUY -->
+<div class="live-buy" id="liveBuy">
+    <div class="avatar">H</div>
+
+    <div class="live-text">
+        <strong>Hana</strong> baru saja membeli <strong>1 tiket</strong><br>
+        Pembayaran berhasil · 3 menit lalu
+    </div>
+</div>
+
+<div class="overlay">
+
+    <div class="modal">
+
+        <!-- HEADER -->
+        <div class="header">
+            <h1>Beli Tiket</h1>
+            <div class="close">×</div>
+        </div>
+
+        <!-- BANNER -->
+        <div class="banner">
+            <img src="banner.png">
+        </div>
+
+        <div class="content">
+
+            <!-- KATEGORI -->
+            <div class="label">Kategori</div>
+
+            <div class="tabs">
+
+                <button class="tab active" id="btnReguler">
+                    Reguler
+                </button>
+
+                <button class="tab" id="btnVip">
+                    VIP
+                </button>
+
+            </div>
+
+            <!-- FASE -->
+            <div class="label">Fase</div>
+
+            <div class="top-line">
+                <div class="dot">·</div>
+                <div class="blue">pilih periode harga yang berlaku</div>
+            </div>
+
+            <div class="desc">
+                Harga akan naik di fase berikut nya
+            </div>
+
+            <!-- PRESALE -->
+            <div class="presale-box">
+
+                <div class="presale-title">
+                    Presale
+                </div>
+
+                <div class="stock" id="stockText">
+                    Stok Terjual <br> 86%
+                </div>
+
+            </div>
+
+            <!-- BUNDLING -->
+            <div class="label">Bundling</div>
+
+            <div class="top-line">
+                <div class="dot">·</div>
+                <div class="blue">pilih jumlah orang</div>
+            </div>
+
+            <div class="desc">
+                Beli barengan lebih hemat — harga per orang makin murah!
+            </div>
+
+            <!-- CARDS -->
+            <div class="bundle-grid" id="bundleGrid">
+
+            </div>
+
+            <!-- JUMLAH -->
+            <div class="qty-row">
+
+                <div class="qty-title">
+                    Jumlah
+                </div>
+
+                <div class="qty-box">
+
+                    <button class="qty-btn" onclick="minusQty()">−</button>
+
+                    <div class="qty-number" id="qty">1</div>
+
+                    <button class="qty-btn" onclick="plusQty()">+</button>
+
+                </div>
+
+            </div>
+
+            <!-- TOTAL -->
+            <div class="total-wrap">
+
+                <div class="total-top">
+
+                    <div class="total-label">
+                        TOTAL HARGA
+                    </div>
+
+                    <div class="people" id="peopleText">
+                        🎟 1 Orang
+                    </div>
+
+                </div>
+
+                <div class="final-price">
+
+                    <div class="big" id="finalPrice">
+                        Rp 105.000
+                    </div>
+
+                    <div class="old" id="oldPrice">
+                        Rp 129.000
+                    </div>
+
+                </div>
+
+                <div class="save" id="saveText">
+                    💰 Kamu hemat Rp 24.000
+                </div>
+
+            </div>
+
+            <!-- BUTTON -->
+            <button class="buy">
+                Beli Sekarang
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* DATA */
+
+const reguler = [
+{
+title:'Sendiri',
+ticket:'1 Tiket',
+price:'Rp 105.000',
+discount:'−Rp 24.000',
+old:'Rp 129.000',
+save:'Rp 24.000'
+},
+{
+title:'Berdua',
+ticket:'2 Tiket',
+price:'Rp 94.500',
+discount:'−Rp 21.000',
+old:'Rp 115.500',
+save:'Rp 21.000'
+},
+{
+title:'Berempat',
+ticket:'4 Tiket',
+price:'Rp 89.750',
+discount:'−Rp 51.000',
+old:'Rp 140.750',
+save:'Rp 51.000'
+}
+];
+
+const vip = [
+{
+title:'Sendiri',
+ticket:'1 Tiket',
+price:'Rp 159.000',
+discount:'−Rp 40.000',
+old:'Rp 199.000',
+save:'Rp 40.000'
+},
+{
+title:'Berdua',
+ticket:'2 Tiket',
+price:'Rp 139.500',
+discount:'−Rp 41.000',
+old:'Rp 180.500',
+save:'Rp 41.000'
+},
+{
+title:'Berempat',
+ticket:'4 Tiket',
+price:'Rp 129.750',
+discount:'−Rp 121.000',
+old:'Rp 250.750',
+save:'Rp 121.000'
+}
+];
+
+let current = reguler;
+let selected = 0;
+let qty = 1;
+
+/* RENDER */
+
+function renderCards(){
+
+    const grid = document.getElementById('bundleGrid');
+
+    grid.innerHTML='';
+
+    current.forEach((item,index)=>{
+
+        grid.innerHTML += `
+        
+        <div class="card ${index===selected ? 'active':''}" onclick="selectCard(${index})">
+
+            <div class="discount">${item.discount}</div>
+
+            <h3>${item.title}</h3>
+
+            <div class="ticket">${item.ticket}</div>
+
+            <div class="price">${item.price}</div>
+
+            <div class="person">/orang</div>
+
+        </div>
+
+        `;
+
+    });
+
+    updateTotal();
+
+}
+
+function selectCard(index){
+
+    selected=index;
+    renderCards();
+
+}
+
+function updateTotal(){
+
+    const item = current[selected];
+
+    document.getElementById('finalPrice').innerText=item.price;
+    document.getElementById('oldPrice').innerText=item.old;
+    document.getElementById('saveText').innerText='💰 Kamu hemat ' + item.save;
+    document.getElementById('peopleText').innerText='🎟 ' + qty + ' Orang';
+
+}
+
+/* CATEGORY */
+
+document.getElementById('btnReguler').onclick=function(){
+
+    current=reguler;
+
+    this.classList.add('active');
+    document.getElementById('btnVip').classList.remove('active');
+
+    selected=0;
+
+    renderCards();
+
+}
+
+document.getElementById('btnVip').onclick=function(){
+
+    current=vip;
+
+    this.classList.add('active');
+    document.getElementById('btnReguler').classList.remove('active');
+
+    selected=0;
+
+    renderCards();
+
+}
+
+/* QTY */
+
+function plusQty(){
+
+    qty++;
+
+    document.getElementById('qty').innerText=qty;
+    updateTotal();
+
+}
+
+function minusQty(){
+
+    if(qty>1){
+
+        qty--;
+
+        document.getElementById('qty').innerText=qty;
+        updateTotal();
+
+    }
+
+}
+
+/* LIVE PURCHASE ANIMATION */
+
+const buyers = [
+
+'Hana',
+'Rizky',
+'Andi',
+'Putra',
+'Salsa',
+'Nabila',
+'Kevin',
+'Farel',
+'Dimas',
+'Vina'
+
+];
+
+setInterval(()=>{
+
+    const buyer =
+    buyers[Math.floor(Math.random()*buyers.length)];
+
+    const ticket =
+    Math.random() > 0.5
+    ? 'VIP'
+    : 'Presale';
+
+    document.querySelector('.live-text').innerHTML = `
+    
+    <strong>${buyer}</strong>
+    baru saja membeli
+    <strong>${ticket}</strong><br>
+    Pembayaran berhasil ·
+    ${Math.floor(Math.random()*9)+1} menit lalu
+    
+    `;
+
+},5000);
+
+/* START */
+
+renderCards();
+
+</script>
+
+</body>
+</html>
